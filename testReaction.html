@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Javascript</title>
+    <style>
+        body{
+            background-color: aliceblue;
+        }
+        
+        h3{
+            position: relative;
+            text-align: center;
+            color:brown;
+        }
+        #recorder{
+            text-align: center;
+        }
+        #instruction{
+            border:2px solid black;
+            width: 220px;
+            height: 200px;
+            position: fixed;
+            margin-left: 10px;
+            background-color: cornsilk;
+        }
+        
+        .container{
+            border:10px solid green;
+            border-radius: 5%;
+            height:700px;
+            width:700px;
+            position: relative;
+            margin-left: 22%;
+            margin-bottom: 10px;
+            display: block;
+            background-color:cornsilk;
+        }
+        
+        #shape{
+            height:100px;
+            width:100px;
+            background: red;
+            display:none;
+            position: relative;
+            border: 1px solid black;
+        }
+        
+        #showResult{
+            border-radius: 2px;
+            background: #4CAF50;
+            border:none;
+            color: aliceblue;
+            height:40px;
+            width:auto;
+            position: relative;
+            
+            margin-left: 22%;
+ 
+        }
+        
+        #showResult:hover{
+            cursor:pointer;
+            background: green;
+        }
+        #bsection{
+             margin-bottom: 20px;
+        }
+        
+        
+        footer{
+            position: relative;
+            text-align: center;
+            top:auto;
+            margin-bottom: 10px;
+        }
+
+    </style>
+  
+</head>
+    <body>
+        <h3>Reaction Tester</h3>
+        <p id="recorder">Your time spent is: <b id="timeTaken"></b></p>
+        <div id="instruction">
+            <h4>Game instruction</h4>
+            <p>Click the shape appeared in the yellow board as fast as you can, and then click
+            on the green button below the game board to see what's your best result.
+            </p>
+        
+        </div>
+        <div class="container">
+        <div id="shape"></div>
+        </div>
+        <div id=bsection>
+        <button id="showResult">Show best result</button>
+        </div>
+        
+        <script type="text/javascript">
+            
+          var start=new Date().getTime();
+          var timeRecorder=[];
+            
+            function getRandomColor() {
+                var letters = '0123456789ABCDEF';
+                var color = '#';
+                for (var i = 0; i < 6; i++) {
+                    color += letters[Math.floor(Math.random() * 16)];
+                }
+                return color;
+            }
+
+      
+          function shapeAppear(){
+              var distanceTop=Math.random()*400;
+              var distanceLeft=Math.random()*400;
+              var length=Math.random()*200;
+              
+              if(Math.random()>0.5){
+                  document.getElementById("shape").style.borderRadius="50%";
+              }else{
+                  document.getElementById("shape").style.borderRadius="0";
+              }
+          
+              document.getElementById("shape").style.display="block";
+              document.getElementById("shape").style.top=distanceTop+"px";
+              document.getElementById("shape").style.left=distanceLeft+"px";
+              document.getElementById("shape").style.height=length+50+"px";
+              document.getElementById("shape").style.width=length+50+"px";
+              document.getElementById("shape").style.background=getRandomColor();
+
+              start=new Date().getTime();
+ 
+          }
+            
+        function appearAfterDelay(){    
+          setTimeout(shapeAppear,Math.random()*2000);
+        }
+            appearAfterDelay();
+            
+            
+          document.getElementById("shape").onclick=function(){
+            document.getElementById("shape").style.display="none";
+            var end=new Date().getTime();
+            var time=(end-start)/1000;
+             document.getElementById("timeTaken").innerHTML=time;
+             appearAfterDelay();
+             timeRecorder.push(time);
+              timeRecorder.sort(function(a, b){return a - b});
+          }
+          
+          function showBestResult(){
+              
+              document.getElementById("showResult").onclick=function(){
+                  
+                  alert("The best result you've tried so far is: "+timeRecorder[0]+" seconds!");
+              }
+          }
+          
+          showBestResult();
+        </script>
+        
+        <footer>
+         &copy; Copyright 2017 Kang Rong
+        </footer>
+    
+    </body>
+
+
+</html>
